@@ -1,0 +1,177 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Realtime stock screener</title>
+
+  <meta name="theme-color" content="#195176">
+  <link rel="manifest" href="manifest.json">
+  <meta name="msapplication-TileColor" content="#195176">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Realtime stock screener">
+  <link rel="icon" sizes="192x192" href="/images/touch/chrome-touch-icon-192x192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#195176">
+  <meta name="apple-mobile-web-app-title" content="Realtime stock screener">
+  <link rel="apple-touch-icon" href="/images/touch/apple-touch-icon.png">
+  <meta name="msapplication-TileImage" content="/images/touch/ms-touch-icon-144x144-precomposed.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,700">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic">
+  <link rel="import" id="polymer" href="/bower_components/polymer/polymer.html">
+  <link rel="import" id="bundle" href="/elements/elements.html" async>
+  <!-- build:css /styles/main.css -->
+  <link rel="stylesheet" href="/styles/main.css">
+  <!-- endbuild-->
+</head>
+<body class="fullbleed">
+<span id="browser-sync-binding"></span>
+<div id="splash1" hidden></div>
+<div id="splash">
+  <div id="splash-toolbar">
+    <div id="splash-toolbar-tabs">
+      <span class="splash-tabs">Home</span>
+      <span class="splash-tabs">Subscribe Screener</span>
+      <span class="splash-tabs">Create New</span>
+      <span class="splash-tabs">Active Screeners</span>
+      <span class="splash-tabs">Marketwatch</span>
+    </div>
+    <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" class="style-scope iron-icon" style="pointer-events: none; display: block; margin-right:38px; width: 24px; height: 24px"><g class="style-scope iron-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" class="style-scope iron-icon"></path></g></svg>
+  </div>
+  <div id="splash-content" style="overflow:scroll">
+    <div id="banner">
+      <canvas id="banner-canvas"></canvas>
+      <div id="text-container">
+		    <span id="text"> Realtime Screener</span>
+		    <span id="sub-text">Opportunity as it happens</span>
+      </div>
+    </div>
+    <div id="features">
+      <div class="features-container">
+        <div class="marketing-feature">
+          <svg class="supportive-img realtime" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
+          </svg>
+          <div class="supportive-text">
+            <h3 class="header-text">
+              Results Every Tick.
+            </h3>
+            <p class="explanation">
+              Realtime as in results every tick. Never miss a opportunity
+            </p>
+          </div>
+        </div>
+        <div class="marketing-feature">
+          <svg class="supportive-img js" viewBox="0 0 256 282" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="#8CC84B"><path d="M116.504151,3.58037736 C123.46566,-0.404528302 132.53434,-0.422641509 139.489811,3.58037736 C174.484528,23.3539623 209.491321,43.0973585 244.48,62.8830189 C251.061132,66.5901887 255.462642,73.9139623 255.396226,81.4973585 L255.396226,200.464906 C255.444528,208.362264 250.608302,215.861132 243.664906,219.483774 C208.784906,239.148679 173.923019,258.837736 139.049057,278.502642 C131.942642,282.566038 122.69283,282.252075 115.809811,277.856604 C105.352453,271.794717 94.8769811,265.763019 84.4196226,259.70717 C82.2822642,258.433208 79.8732075,257.418868 78.3637736,255.347925 C79.6981132,253.548679 82.0830189,253.325283 84.0211321,252.540377 C88.3864151,251.151698 92.3954717,248.923774 96.4045283,246.762264 C97.4188679,246.067925 98.6566038,246.333585 99.6286792,246.955472 C108.570566,252.081509 117.433962,257.358491 126.406038,262.436226 C128.32,263.541132 130.258113,262.073962 131.89434,261.162264 C166.122264,241.817358 200.392453,222.544906 234.61434,203.193962 C235.882264,202.584151 236.582642,201.237736 236.48,199.849057 C236.504151,160.603774 236.486038,121.352453 236.492075,82.1071698 C236.636981,80.5313208 235.725283,79.0822642 234.300377,78.4362264 C199.541132,58.8618868 164.8,39.2573585 130.046792,19.6769811 C128.803019,18.8316981 127.196981,18.8256604 125.953208,19.6709434 C91.2,39.2573585 56.4649057,58.88 21.7116981,78.4543396 C20.2928302,79.1003774 19.3388679,80.525283 19.5079245,82.1071698 C19.5139623,121.352453 19.5079245,160.603774 19.5079245,199.855094 C19.3871698,201.243774 20.1358491,202.56 21.3977358,203.157736 C30.6716981,208.416604 39.9577358,213.639245 49.2377358,218.88 C54.4664151,221.693585 60.8845283,223.366038 66.6445283,221.210566 C71.7283019,219.38717 75.290566,214.200755 75.1939623,208.803019 C75.2422642,169.78717 75.1698113,130.765283 75.2301887,91.7554717 C75.1033962,90.0226415 76.7456604,88.5916981 78.4301887,88.754717 C82.8860377,88.7245283 87.3479245,88.6943396 91.8037736,88.7667925 C93.6633962,88.7245283 94.9433962,90.5901887 94.7139623,92.3350943 C94.6958491,131.598491 94.7622642,170.861887 94.6837736,210.125283 C94.6958491,220.588679 90.3969811,231.975849 80.7184906,237.095849 C68.7939623,243.272453 54.0558491,241.962264 42.2762264,236.039245 C32.0784906,230.949434 22.3456604,224.941887 12.3290566,219.489811 C5.36754717,215.885283 0.555471698,208.356226 0.603773585,200.464906 L0.603773585,81.4973585 C0.531320755,73.7569811 5.10792453,66.3003774 11.8943396,62.6475472 C46.7683019,42.9645283 81.6362264,23.269434 116.504151,3.58037736 L116.504151,3.58037736 Z"></path><path d="M146.928302,85.989434 C162.137358,85.0113208 178.421132,85.4098113 192.108679,92.9026415 C202.704906,98.6445283 208.579623,110.695849 208.766792,122.469434 C208.470943,124.057358 206.810566,124.93283 205.295094,124.824151 C200.881509,124.818113 196.467925,124.884528 192.05434,124.793962 C190.182642,124.866415 189.095849,123.139623 188.860377,121.485283 C187.592453,115.852075 184.519245,110.273208 179.218113,107.556226 C171.079245,103.480755 161.642264,103.686038 152.766792,103.770566 C146.288302,104.114717 139.320755,104.676226 133.832453,108.486038 C129.618113,111.372075 128.338113,117.198491 129.841509,121.889811 C131.260377,125.258868 135.148679,126.34566 138.330566,127.347925 C156.661132,132.141887 176.084528,131.664906 194.064906,137.97434 C201.509434,140.546415 208.790943,145.54566 211.338868,153.340377 C214.671698,163.78566 213.210566,176.271698 205.778113,184.658113 C199.752453,191.559245 190.973585,195.314717 182.218868,197.355472 C170.572075,199.951698 158.484528,200.018113 146.656604,198.864906 C135.535094,197.596981 123.960755,194.674717 115.375094,187.097358 C108.033208,180.721509 104.446792,170.789434 104.803019,161.201509 C104.887547,159.583396 106.499623,158.45434 108.051321,158.58717 C112.495094,158.550943 116.938868,158.538868 121.382642,158.593208 C123.157736,158.466415 124.473962,160 124.564528,161.672453 C125.38566,167.04 127.402264,172.673208 132.081509,175.855094 C141.113962,181.681509 152.446792,181.283019 162.789434,181.446038 C171.356981,181.06566 180.975094,180.950943 187.966792,175.287547 C191.655849,172.057358 192.748679,166.653585 191.752453,162.004528 C190.671698,158.08 186.566038,156.250566 183.04,155.055094 C164.944906,149.331321 145.304151,151.408302 127.384151,144.935849 C120.108679,142.363774 113.074717,137.503396 110.279245,130.028679 C106.378868,119.450566 108.166038,106.366792 116.377358,98.2641509 C124.383396,90.2037736 135.939623,87.1003774 146.928302,85.989434 L146.928302,85.989434 Z"></path></g></svg>
+          <div class="supportive-text">
+            <h3 class="header-text">
+              Javascript.
+            </h3>
+            <p class="explanation">
+              Create screeners in worlds widely used language and community.
+            </p>
+          </div>
+        </div>
+        <div class="marketing-feature">
+          <svg class="supportive-img customize" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 10.9c-.61 0-1.1.49-1.1 1.1s.49 1.1 1.1 1.1c.61 0 1.1-.49 1.1-1.1s-.49-1.1-1.1-1.1zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm2.19 12.19L6 18l3.81-8.19L18 6l-3.81 8.19z"/>
+            <path d="M0 0h24v24H0z" fill="none"/>
+          </svg>
+          <div class="supportive-text">
+            <h3 class="header-text">
+              Highly customizable.
+            </h3>
+            <p class="explanation">
+              Customize for your own unique strategy using built in editor.
+            </p>
+          </div>
+        </div>
+        <div class="marketing-feature">
+          <svg class="supportive-img opensource" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/>
+          </svg>
+          <div class="supportive-text">
+            <h3 class="header-text">
+              Open Source.
+            </h3>
+            <p class="explanation">
+              Every indicator and functions used are open source.
+            </p>
+          </div>
+        </div>
+        <div class="marketing-feature">
+          <svg class="supportive-img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <text x="-10" y="20">FREE</text>
+          </svg>
+          <div class="supportive-text">
+            <h3 class="header-text">
+              FREE.
+            </h3>
+            <p class="explanation">
+              Free to create and use screeners with no restriction.
+            </p>
+          </div>
+        </div>
+        <div class="marketing-feature">
+          <svg class="supportive-img debug" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"/>
+          </svg>
+          <div class="supportive-text debug">
+            <h3 class="header-text">
+              Easily Debuggable.
+            </h3>
+            <p class="explanation">
+              Test your indicators for every execution path.
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--<div class="even-row">-->
+        <!--<img class="supportive-img">-->
+
+        <!--</img>-->
+        <!--<div class="supportive-text">-->
+
+        <!--</div>-->
+      <!--</div>-->
+    </div>
+  </div>
+  <!--<div id="splash-spinner">-->
+    <!--<svg width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">-->
+      <!--<g>-->
+        <!--<animateTransform attributeName="transform" type="rotate" values="0 33 33;270 33 33" begin="0s" dur="1.4s" fill="freeze" repeatCount="indefinite"/>-->
+        <!--<circle fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30" stroke-dasharray="187" stroke-dashoffset="610">-->
+          <!--<animate attributeName="stroke" values="#4285F4;#DE3E35;#F7C223;#1B9A59;#4285F4" begin="0s" dur="5.6s" fill="freeze" repeatCount="indefinite"/>-->
+          <!--<animateTransform attributeName="transform" type="rotate" values="0 33 33;135 33 33;450 33 33" begin="0s" dur="1.4s" fill="freeze" repeatCount="indefinite"/>-->
+          <!--<animate attributeName="stroke-dashoffset" values="187;46.75;187" begin="0s" dur="1.4s" fill="freeze" repeatCount="indefinite"/>-->
+        <!--</circle>-->
+      <!--</g>-->
+    <!--</svg>-->
+  <!--</div>-->
+</div>
+<tlab-screener id="app"></tlab-screener>
+<!-- build:js /scripts/home.js -->
+<script src="/scripts/home.js"></script>
+<!-- endbuild-->
+<!-- build:js /scripts/app.js -->
+<script src="/scripts/app.js" async></script>
+<!-- endbuild-->
+</body>
+
+</html>

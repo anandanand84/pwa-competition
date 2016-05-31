@@ -1,0 +1,89 @@
+<dom-module id="search-scrip">
+	<style>
+		:host {
+			display: block;
+			min-width:250px;
+		}
+	</style>
+	<template>
+		<tlab-data id="dataprovider" method="getAvailableScrips" last-response="{{choices}}"> </tlab-data>
+					<auto-complete close-on-select id="autocomplete" on-filter="filterchange" delay="[[delay]]" data="{{choices}}" placeholder="[[placeholder]]">
+					</auto-complete>
+
+	</template>
+	<script>
+		Polymer({
+			is: 'search-scrip',
+			properties: {
+		        delay:{
+		          type:Number,
+		          value:200
+		        },
+		        placeholder:{
+		          type:String,
+		          value:'Enter few characters'
+		        }
+		    },
+			filterchange:function(event){
+				this.$.dataprovider.params = [{'scrip':event.detail}];
+			}
+		});
+	</script>
+</dom-module>
+<dom-module id="scrips-marketwatch">
+	<style>
+		:host {
+			display: block;
+			padding:10px;
+      max-width : 300px;
+		}
+	</style>
+	<template>
+				<search-scrip id="search" delay=500 placeholder="Add to marketwatch.. ex: Bank"></search-scrip>
+				<div id="marketwatch">
+					<display-scrip-detail show-detail-for="NSE:RELIANCE"></display-scrip-detail>
+					<display-scrip-detail show-detail-for="NSE:JPASSOCIAT"></display-scrip-detail>
+					<display-scrip-detail show-detail-for="NSE:ICICIBANK"></display-scrip-detail>
+					<display-scrip-detail show-detail-for="NSE:TCS"></display-scrip-detail>
+					<display-scrip-detail show-detail-for="NSE:TATASTEEL"></display-scrip-detail>
+				</div>
+	</template>
+	<script>
+		Polymer({
+			is: 'scrips-marketwatch',
+			ready:function(){
+				var _this = this;
+				this.$.search.addEventListener('select',function(event){
+						var newElement = document.createElement('display-scrip-detail');
+						newElement.showDetailFor = "NSE:"+event.detail.scrip;
+						_this.$.marketwatch.appendChild(newElement);
+						event.preventDefault();
+						event.stopPropagation();
+				});
+			}
+		});
+	</script>
+</dom-module>
+<dom-module id="chart-change">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template is="dom-bind">
+		<search-scrip id="changescrip" delay=500 placeholder="Change Chart.. ex: RELIANCE"></search-scrip>
+	</template>
+	<script>
+		Polymer({
+			is: 'chart-change',
+			ready:function(){
+				this.$.changescrip.addEventListener('select',function(event){
+						console.log(event.detail.scrip);
+						chart.getChartView().getSelectedChart().changeScrip(event.detail.scrip);
+						event.preventDefault();
+						event.stopPropagation();
+				})
+			}
+		});
+	</script>
+</dom-module>

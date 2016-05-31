@@ -1,0 +1,125 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!--Service Worker for offline content-->
+<link rel="import" href="../../bower_components/platinum-sw/platinum-sw-register.html">
+<link rel="import" href="../../bower_components/platinum-sw/platinum-sw-fetch.html">
+<link rel="import" href="../../bower_components/platinum-sw/platinum-sw-import-script.html">
+<link rel="import" href="../../bower_components/platinum-sw/platinum-sw-cache.html">
+
+<!--Routing Elements-->
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+
+<dom-module id="tlab-screener">
+  <style>
+    :host {
+      margin: 0;
+      height : 100%;
+      width : 100%;
+      @apply(--layout-vertical);
+    }
+    main-toolbar {
+      width : 100%;
+    }
+
+    neon-animated-pages {
+      @apply(--layout-flex);
+      overflow: scroll;
+    }
+
+  </style>
+  <template>
+      <app-location route="{{location}}"></app-location>
+      <app-route route="{{location}}" tail="{{subpage}}" pattern="/:page" data="{{locationdata}}"></app-route>
+      <main-toolbar location="{{location}}" data="{{locationdata}}"></main-toolbar>
+      <neon-animated-pages selected='{{locationdata.page}}'
+                           attr-for-selected='key'
+                           entry-animation='fade-in-animation'
+                           exit-animation='fade-out-animation'>
+        <neon-animatable key='home'>
+          <home-screen></home-screen>
+        </neon-animatable>
+        <neon-animatable key='editor'>
+          <app-route route="{{subpage}}" pattern="/:id/:version" tail={{editorRoute}} data="{{editorParams}}"></app-route>
+          <div style="height:100%" class="full layout horizontal flex">
+            <tlab-editor id="editor" section-route={{editorRoute}} screener-id={{editorParams.id}}
+                         version="{{editorParams.version}}" class="flex-2"></tlab-editor>
+          </div>
+        </neon-animatable>
+        <neon-animatable key='screened'>
+          <tlab-screener-viewer></tlab-screener-viewer>
+        </neon-animatable>
+        <neon-animatable key='subscribe'>
+          <screener-list publishedOnly user="ALL" filters="{{filters}}"></screener-list>
+        </neon-animatable>
+        <neon-animatable key='marketwatch'>
+          <scrips-marketwatch></scrips-marketwatch>
+        </neon-animatable>
+      </neon-animated-pages>
+
+      <paper-toast id="serviceWorkerToast"
+                   duration="6000" on-tap="reload"
+                   text="New version available click to Reload.">
+      </paper-toast>
+      <platinum-sw-register id="swRegister" auto-register href="/sw-import.js"
+                            base-uri="/bower_components/platinum-sw/bootstrap"
+                            on-service-worker-installed="swInstalled"
+                            on-service-worker-updated="serviceWorkerUpdated">
+        <!--clientsClaim-->
+        <!--origin="https?://.+\.google\.com"-->
+
+        <!--<platinum-sw-fetch handler="networkOnly" path="/sw-import.js(.*)"></platinum-sw-fetch>-->
+        <!--<platinum-sw-fetch handler="networkOnly" path="/cache-config.json"></platinum-sw-fetch>-->
+        <!--<platinum-sw-fetch handler="networkOnly" path="/sw-handler.js"></platinum-sw-fetch>-->
+        <platinum-sw-import-script href="/sw-handler.js"></platinum-sw-import-script>
+        <platinum-sw-fetch handler="networkOnly" path="/api/session"></platinum-sw-fetch>
+        <platinum-sw-fetch handler="networkOnly" path="/api/auth/(.*)"></platinum-sw-fetch>
+        <platinum-sw-fetch handler="fastest" path="/*.(html|css|js|json)"></platinum-sw-fetch>
+
+        <platinum-sw-cache default-cache-strategy="fastest" cache-id="static"
+                           cache-config-file="/cache-config.json">
+        </platinum-sw-cache>
+        <platinum-sw-fetch handler="defaultHandler" path="/*"></platinum-sw-fetch>
+      </platinum-sw-register>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    Polymer({
+      is: 'tlab-screener',
+      ready: function() {
+        if((!this.location.path) || (this.location.path === '/')) {
+          this.async(function() {
+            this.set('location.path' , '/home');
+          });
+        }
+      },
+
+      reload : function() {
+        window.location.reload();
+      },
+
+      serviceWorkerUpdated : function() {
+        this.$.serviceWorkerToast.show();
+      },
+
+      swInstalled : function() {
+        // Check to make sure caching is actually enabled—it won't be in the dev environment.
+//        if (!this.$.swRegister.disabled) {
+//          this.$.caching-complete.show();
+//        }
+        console.log('Caching complete! This app will work offline');
+      }
+    });
+  })();
+  </script>
+</dom-module>

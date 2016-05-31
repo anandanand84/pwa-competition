@@ -1,0 +1,44 @@
+box : node
+no-response-timeout: 60
+build:
+    steps :
+        - add-ssh-key:
+            keyname: WERCKER
+        - add-to-known_hosts:
+                hostname: bitbucket.org
+                fingerprint: 97:8c:1b:f2:6f:14:6b:5c:3b:ec:aa:46:46:74:7c:40
+        - script :
+            name : Display node version
+            code : |
+                node -v
+        - npm-install
+        - script :
+            name : Global modules and bower Install
+            code : |
+                npm install -g bower
+                npm install -g gulp
+                bower --allow-root install --f
+        - script :
+            name : Run gulp
+            code : |
+                gulp default
+
+command-timeout: 60
+deploy:
+    steps:
+        - add-to-known_hosts:
+            hostname: $DEPLOY_HOST
+        - mktemp:
+            envvar: PRIVATEKEY_PATH
+        - create-file:
+            name: write key
+            filename: $PRIVATEKEY_PATH
+            content: $WERCKER_PRIVATE
+            overwrite: true
+            hide-from-log: true
+        - script:
+            name: Copy application
+            code: |
+                pwd
+                ls -la
+                tar czf - * | ssh -i $PRIVATEKEY_PATH -l root/dist $DEPLOY_HOST "cd $TARGET_LOCATION; tar xvzf -"

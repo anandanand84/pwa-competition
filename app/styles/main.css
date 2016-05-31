@@ -1,0 +1,198 @@
+/*
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
+
+body {
+  background: #fafafa;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #333;
+}
+
+body.fullbleed {
+  margin: 0;
+  height: 100vh;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+#splash, #splash1{
+  width : 100%;
+  height : 100%;
+  overflow: hidden;
+}
+
+#splash-toolbar {
+  padding : 0px 14px;
+  width : 100%;
+  height : 64px;
+  box-shadow: 0px 5px 6px -3px rgba(0, 0, 0, 0.4);
+  display : flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex : 0;
+}
+
+#splash-content {
+  display : flex;
+  flex-direction : column;
+  width : 100%;
+  height : calc(100% - 64px);
+  padding-bottom : 83px;
+}
+
+#banner-canvas {
+  overflow: hidden;
+  width :100%;
+  height : 100%;
+  position : absolute;
+  background: #085078; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #085078 , #85D8CE); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #085078 , #85D8CE); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#banner {
+  position : relative;
+  background: #085078;
+  flex : 3
+}
+
+#text-container {
+  display: flex;
+  flex-direction: column;
+  align-items : end;
+  right : 10%;
+  top : 20%;
+  position: absolute;
+}
+
+#text {
+  text-transform : uppercase;
+  font-size : 2em;
+  font-family: 'Lato sans-serif;';
+  color : white;
+}
+
+#sub-text {
+  color : #FFF;
+  font-size : 1.2em;
+  text-align : right;
+}
+
+#features {
+  flex : 7;
+  padding : 2em;
+  display : flex;
+  flex-direction : column;
+}
+
+.features-container {
+  display : flex;
+  flex : 1;
+  width : 100%;
+  margin : 0 auto;
+  flex-wrap : wrap;
+  justify-content : center;
+  align-items : center;
+  max-width : 1200px;
+
+}
+
+.marketing-feature {
+  background: #fff;
+  border-radius: 2px;
+  height: 300px;
+  margin: 1rem;
+  position: relative;
+  width: 300px;
+  display : flex;
+  flex-direction : column;
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.marketing-feature:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.supportive-img {
+  fill : #80cbc4;
+  margin : 1em;
+  flex : 1;
+}
+
+.debug {
+  fill : #e67c73;
+}
+
+.realtime{
+  fill : #ba68c8;
+}
+
+.opensource {
+  fill : #4dd0e1;
+}
+
+.free {
+  fill : #7986cb
+}
+
+.supportive-text {
+  flex : 1;
+  margin : 1em;
+  margin-left : 2em;
+}
+
+.header-text{
+  font-size: 28px;
+  margin-top: 10px;
+  color: #37474F;
+  margin: 0 0 16px 0;
+  font-size: 24px;
+  font-weight: 450;
+  opacity: .87;
+  line-height: 32px;
+}
+
+.explanation {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 400;
+  opacity: .87;
+  line-height: 28px;
+  padding: 0;
+}
+
+#splash-toolbar-tabs {
+  max-width : 640px;
+  display : flex;
+  align-content : center;
+  margin-right: 8px;
+}
+
+.splash-tabs {
+  padding : 12px;
+  text-transform : uppercase;
+  font-family: 'Roboto', 'Noto', sans-serif;
+  font-size:14px;
+  font-weight:500;
+}
+
+#splash-toolbar-tabs-content {
+  max-width : 640px;
+}
+
+#splash-spinner {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}

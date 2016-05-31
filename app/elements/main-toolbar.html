@@ -1,0 +1,214 @@
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+
+<dom-module id="main-toolbar">
+
+  <template>
+
+    <style>
+
+      app-header-layout {
+        z-index: 99999;
+      }
+
+      app-drawer {
+        z-index : 999999;
+      }
+
+      :host {
+        width : 100%;
+      }
+
+      .main-header {
+        box-shadow: 0px 5px 6px -3px rgba(0, 0, 0, 0.4);
+      }
+
+      paper-tabs {
+        text-decoration: none;
+        max-width: 640px;
+        text-transform: uppercase;
+      }
+
+      .paper-item-link {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      #drawer{
+        z-index: 9999999;
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+    </style>
+
+    <style is="custom-style">
+      .tabs-bar {
+        @apply(--layout-horizontal);
+        @apply(--layout-end-justified);
+      }
+
+      .menu{
+        @apply(--layout-horizontal);
+        @apply(--layout-justified);
+      }
+
+      .link {
+        @apply(--layout-horizontal);
+        @apply(--layout-center-center);
+        width : 100%;
+        height : 100%;
+        color : var(--primary-text-color);
+        text-decoration : none;
+      }
+    </style>
+
+    <app-drawer-layout force-narrow>
+
+      <app-drawer id="drawer">
+
+        <!-- Nav on mobile: side nav menu -->
+        <paper-menu attr-for-selected="data-route" selected="[[data.page]]">
+          <a class="paper-item-link" data-route="home" href="/home" tabindex="-1">
+            <paper-item raised>Home</paper-item>
+          </a>
+
+          <a class="paper-item-link" data-route="subscribe" href="/subscribe" tabindex="-1">
+            <paper-item raised>Subscribe Screeners</paper-item>
+          </a>
+
+          <a class="paper-item-link" data-route="editor" href="" on-tap="getNewEditorUrl" tabindex="-1">
+            <!--<a class="paper-item-link" data-route="editor" href="{{getNewEditorUrl()}}">-->
+            <paper-item raised>Create New</paper-item>
+          </a>
+
+          <a class="paper-item-link" data-route="screened" href="/screened" tabindex="-1">
+            <paper-item raised>Active Screener</paper-item>
+          </a>
+
+          <a class="paper-item-link" data-route="marketwatch" href="/marketwatch" tabindex="-1">
+            <paper-item raised>Marketwatch</paper-item>
+          </a>
+        </paper-menu>
+      </app-drawer>
+
+      <app-header-layout>
+        <app-header class="main-header">
+          <app-toolbar class="menu" hidden$="{{wideLayout}}">
+            <paper-icon-button class="menu-button" icon="menu" drawer-toggle></paper-icon-button>
+            <tlab-login></tlab-login>
+          </app-toolbar>
+
+          <app-toolbar class="tabs-bar" hidden$="{{!wideLayout}}">
+            <!-- Nav on desktop: tabs -->
+            <paper-tabs no-bar noink no-slide attr-for-selected="data-route" selected="[[data.page]]">
+                <paper-tab data-route="home" tabindex="-1">
+                  <a href="/home" class="link">
+                    <span>Home</span>
+                  </a>
+                </paper-tab>
+                <paper-tab data-route="subscribe" tabindex="-1">
+                  <a href="/subscribe" class="link">
+                    <span>Subscribe Screener</span>
+                  </a>
+                </paper-tab>
+                <paper-tab tabindex="-1">
+                  <a id="editorLink" on-tap="getNewEditorUrl" class="link">
+                    <!--<a data-route="editor" href="{{getNewEditorUrl()}}">-->
+                    <span>Create New</span>
+                  </a>
+                </paper-tab>
+                <paper-tab data-route="screened" tabindex="-1">
+                  <a href="/screened" class="link">
+                    <span>Active Screeners</span>
+                  </a>
+                </paper-tab>
+                <paper-tab data-route="marketwatch" tabindex="-1">
+                  <a href="/marketwatch" class="link" tabindex="-1">
+                    <span>Marketwatch</span>
+                  </a>
+                </paper-tab>
+            </paper-tabs>
+            <tlab-login></tlab-login>
+          </app-toolbar>
+        </app-header>
+      </app-header-layout>
+
+    </app-drawer-layout>
+
+    <iron-media-query query="min-width: 600px" query-matches="{{wideLayout}}"></iron-media-query>
+
+  </template>
+
+  <script>
+    window.generateUUID =  function () {
+      var d = new Date().getTime();
+      if (window && window.performance && typeof window.performance.now === "function") {
+        d += performance.now(); //use high-precision timer if available
+      }
+      var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      });
+      return uuid;
+    }
+
+    Polymer({
+      is: 'main-toolbar',
+      properties: {
+        tail: {
+          type: Object,
+          reflectToAttribute: true,
+          notify : true,
+        },
+        wideLayout: {
+          type: Boolean,
+          value: false,
+          observer: 'onLayoutChange'
+        },
+        data : {
+          type : Object,
+          reflectToAttribute: true,
+          notify : true,
+        },
+        location : {
+          type : Object,
+          reflectToAttribute: true,
+          notify : true,
+        }
+      },
+
+
+      onLayoutChange: function(wide) {
+        var drawer = this.$.drawer;
+        if (wide && drawer.opened) {
+          drawer.opened = false;
+        }
+      },
+
+      getNewEditorUrl : function(event) {
+        event.currentTarget.href="/editor/"+generateUUID()+"/unsaved/code";
+//        event.stopImmediatePropagation();
+//        event.cancelBubble = true;
+//        event.preventDefault();
+//        event.stopPropagation();
+      }
+
+    });
+  </script>
+
+</dom-module>
