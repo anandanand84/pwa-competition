@@ -23,13 +23,19 @@ Fill in the below template for your entry
 -------------------------------------------------------------------------------
 
 
-# [Your app name here]
+# Realtime stock screener
 
 ## App description
+
+This application provides the ability to screen stocks using javascript in realtime. This is based on Indian Stock exchange.
 
 
 ## Technologies used
 
+1. Polymer
+2. Redis, Rethinkdb
+3. Nodejs
+
 
 ## Link to live demo
-Contest entries need to be hosted online and be accessible at least through the judging period (May 31 – June 5).
+https://realtimestockscreener.com
